@@ -2020,14 +2020,14 @@ std::unique_ptr<TableRef> PostgresParser::WithTransform(ParseResult *parse_resul
   std::unique_ptr<TableRef> result = nullptr;
   auto node = reinterpret_cast<Node *>(root->ctes_->head->data.ptr_value);
   auto common_table_expr = reinterpret_cast<CommonTableExpr *>(node);
-  auto cte_query = reinterpret_cast<Node *>(common_table_expr->ctequery);
+  auto cte_query = reinterpret_cast<Node *>(common_table_expr->ctequery_);
   switch (cte_query->type) {
     case T_SelectStmt: {
       auto select = SelectTransform(parse_result, reinterpret_cast<SelectStmt *>(cte_query));
       if (select == nullptr) {
         return nullptr;
       }
-      auto alias = common_table_expr->ctename;
+      auto alias = common_table_expr->ctename_;
       result = TableRef::CreateTableRefBySelect(alias, std::move(select));
       return result;
     }
