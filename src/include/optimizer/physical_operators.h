@@ -2098,13 +2098,13 @@ class CteScan : public OperatorNodeContents<CteScan> {
   bool operator==(const BaseOperatorNodeContents &r) override;
   common::hash_t Hash() const override;
 
-  std::vector<common::ManagedPointer<parser::AbstractExpression>> GetChildExpressions() const {return child_expressions_;}
+  std::vector<common::ManagedPointer<parser::AbstractExpression>> GetChildExpressions() const {
+    return child_expressions_;
+  }
 
  private:
   std::vector<common::ManagedPointer<parser::AbstractExpression>> child_expressions_;
-
 };
-
 
 }  // namespace optimizer
 }  // namespace terrier

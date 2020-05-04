@@ -1243,13 +1243,12 @@ BaseOperatorNodeContents *CteScan::Copy() const { return new CteScan(*this); }
 
 Operator CteScan::Make(std::vector<common::ManagedPointer<parser::AbstractExpression>> child_expressions) {
   auto cte_scan_op = std::make_unique<CteScan>();
-  cte_scan_op->child_expressions_ = child_expressions;
+  cte_scan_op->child_expressions_ = std::move(child_expressions);
   return Operator(std::move(cte_scan_op));
 }
 
 bool CteScan::operator==(const BaseOperatorNodeContents &r) {
-  if (r.GetType() != OpType::CTESCAN) return false;
-  return (true);
+  return r.GetType() == OpType::CTESCAN;
 }
 
 common::hash_t CteScan::Hash() const {
