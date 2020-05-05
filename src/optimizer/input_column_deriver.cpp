@@ -128,7 +128,7 @@ void InputColumnDeriver::Visit(const CteScan *op) {
         if ((elem->GetExpressionType() == parser::ExpressionType::COLUMN_VALUE)) {
           auto child_expr_pointer = reinterpret_cast<parser::ColumnValueExpression *>(elem.Get());
           std::string table_name = child_expr_pointer->GetTableName();
-          const std::string& col_name = child_expr_pointer->GetAlias();
+          const std::string &col_name = child_expr_pointer->GetAlias();
           auto col_expr = new parser::ColumnValueExpression(
               table_name, col_name, child_expr_pointer->GetDatabaseOid(), child_expr_pointer->GetTableOid(),
               child_expr_pointer->GetColumnOid(), child_expr_pointer->GetReturnValueType());

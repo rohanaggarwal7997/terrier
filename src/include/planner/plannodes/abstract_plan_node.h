@@ -98,7 +98,7 @@ class AbstractPlanNode {
   /**
    * Move children nodes to provided vector
    */
-  void MoveChildren(std::vector<std::unique_ptr<AbstractPlanNode>>* adoption_list);
+  void MoveChildren(std::vector<std::unique_ptr<AbstractPlanNode>> *adoption_list);
 
   /**
    * @return number of children

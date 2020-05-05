@@ -107,7 +107,7 @@ class Optimizer : public AbstractOptimizer {
    * CTE Plan node with the cte table schema
    */
   void ElectCTELeader(common::ManagedPointer<planner::AbstractPlanNode> plan,
-                      common::ManagedPointer<planner::AbstractPlanNode> &leader);
+                      common::ManagedPointer<planner::AbstractPlanNode> *leader);
 
   std::unique_ptr<AbstractCostModel> cost_model_;
   std::unique_ptr<OptimizerContext> context_;

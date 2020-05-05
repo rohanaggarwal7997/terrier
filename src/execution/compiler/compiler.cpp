@@ -139,12 +139,11 @@ void Compiler::MakePipelines(const terrier::planner::AbstractPlanNode &op, Pipel
 
         curr_pipeline->Add(std::move(top_translator));
         return;
-      } else {
-        // Every other operation just adds itself to the current pipeline.
-        auto translator = TranslatorFactory::CteScanNodeTranslator(&op, codegen_);
-        curr_pipeline->Add(std::move(translator));
-        return;
       }
+      // Every other operation just adds itself to the current pipeline.
+      auto translator = TranslatorFactory::CteScanNodeTranslator(&op, codegen_);
+      curr_pipeline->Add(std::move(translator));
+      return;
     }
     default: {
       // Every other operation just adds itself to the current pipeline.

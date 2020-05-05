@@ -327,7 +327,7 @@ using CommonTableExpr = struct CommonTableExpr {
   /* These fields are set during parse analysis: */
   bool cterecursive_;      /* is this CTE actually recursive? */
   int cterefcount_;        // number of RTEs referencing this CTE
-                          // (excluding internal self-references)
+                           // (excluding internal self-references)
   List *ctecolnames_;      /* list of output column names */
   List *ctecoltypes_;      /* OID list of output column type OIDs */
   List *ctecoltypmods_;    /* integer list of output column typmods */

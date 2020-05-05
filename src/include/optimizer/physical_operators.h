@@ -2115,7 +2115,6 @@ class CteScan : public OperatorNodeContents<CteScan> {
    * Table alias
    */
   std::string table_alias_;
-
 };
 
 }  // namespace optimizer
