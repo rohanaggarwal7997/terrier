@@ -81,7 +81,7 @@ CteScanLeaderTranslator::CteScanLeaderTranslator(const terrier::planner::CteScan
   std::map<storage::col_id_t, catalog::col_oid_t> inverse_map;
 
   // Notice the change in the inverse map argument different from sql_table get projection map function
-  for (auto col_oid : col_oids_) inverse_map[col_oid_to_id[col_oid] = col_oids_[col_oid];
+  for (auto col_oid : col_oids_) inverse_map[col_oid_to_id[col_oid]] = col_oid;
 
   // Populate the projection map using the in-order iterator on std::map
   uint16_t i = 0;
