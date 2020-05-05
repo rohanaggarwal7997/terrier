@@ -129,11 +129,11 @@ TEST_F(StorageInterfaceTest, NonCatalogTableTest) {
     inserted_vals.emplace_back(*val_a);
     // Insert into table
     storage::ProjectedRowInitializer pri = cte_table->InitializerForProjectedRow((cte_table_col_oids));
-    auto table_redo_ = exec_ctx_->GetTxn()->StageWrite(exec_ctx_->DBOid(), cte_table_oid, pri);
-    auto *const insert_pr(table_redo_->Delta());
+    auto table_redo = exec_ctx_->GetTxn()->StageWrite(exec_ctx_->DBOid(), cte_table_oid, pri);
+    auto *const insert_pr(table_redo->Delta());
     insert_pr->Set<int32_t, false>(0, *val_a, false);
     exec_ctx_->RowsAffected()++;
-    cte_table->Insert(exec_ctx_->GetTxn(), table_redo_);
+    cte_table->Insert(exec_ctx_->GetTxn(), table_redo);
   }
 
   // Try to fetch the inserted values.
