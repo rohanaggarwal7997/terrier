@@ -1349,6 +1349,28 @@ void Sema::CheckMathTrigCall(ast::CallExpr *call, ast::Builtin builtin) {
   call->SetType(GetBuiltinType(real_kind));
 }
 
+void Sema::CheckNowCall(ast::CallExpr *call, ast::Builtin builtin) {
+  // check to make sure we have the right number of arguments
+  if (!CheckArgCount(call, 2)) {
+    return;
+  }
+
+  auto timestamp_kind = ast::BuiltinType::Timestamp;
+  if (!IsPointerToSpecificBuiltin(call->Arguments()[0]->GetType(), timestamp_kind)) {
+    ReportIncorrectCallArg(call, 0, GetBuiltinType(timestamp_kind)->PointerTo());
+    return;
+  }
+
+  auto exec_ctx_kind = ast::BuiltinType::ExecutionContext;
+  if (!IsPointerToSpecificBuiltin(call->Arguments()[1]->GetType(), exec_ctx_kind)) {
+    ReportIncorrectCallArg(call, 1, GetBuiltinType(exec_ctx_kind)->PointerTo());
+    return;
+  }
+
+  // Now function returns timestamp value (important)
+  call->SetType(GetBuiltinType(ast::BuiltinType::Timestamp));
+}
+
 void Sema::CheckBuiltinSizeOfCall(ast::CallExpr *call) {
   if (!CheckArgCount(call, 1)) {
     return;
@@ -2528,6 +2550,10 @@ void Sema::CheckBuiltinCall(ast::CallExpr *call) {
     case ast::Builtin::Sin:
     case ast::Builtin::Tan: {
       CheckMathTrigCall(call, builtin);
+      break;
+    }
+    case ast::Builtin::Now: {
+      CheckNowCall(call, builtin);
       break;
     }
     case ast::Builtin::PRSetBool:
