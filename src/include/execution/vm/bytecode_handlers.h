@@ -1478,6 +1478,13 @@ VM_OP_WARM void OpIndexIteratorGetSlot(terrier::storage::TupleSlot *slot,
   *slot = iter->CurrentSlot();
 }
 
+// ---------------------------------------------------------------
+// Timestamp Functions
+// ---------------------------------------------------------------
+VM_OP void OpNow(terrier::execution::sql::TimestampVal *result, terrier::execution::exec::ExecutionContext *exec_ctx) {
+  *result = terrier::execution::sql::TimestampVal(exec_ctx->GetTxn()->StartTime());
+}
+
 #define GEN_PR_SCALAR_SET_CALLS(Name, SqlType, CppType)                                    \
   VM_OP_HOT void OpPRSet##Name(terrier::storage::ProjectedRow *pr, uint16_t col_idx,       \
                                terrier::execution::sql::SqlType *val) {                    \
