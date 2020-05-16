@@ -864,7 +864,7 @@ void VM::Interpret(const uint8_t *ip, Frame *frame) {
   OP(InitString) : {
     auto *sql_string = frame->LocalAt<sql::StringVal *>(READ_LOCAL_ID());
     auto length = static_cast<uint64_t>(READ_IMM8());
-    auto data = staauto *sql_timestamp = frame->LocalAt<sql::TimestampVal *>(READ_LOCAL_ID());tic_cast<uintptr_t>(READ_IMM8());
+    auto data = static_cast<uintptr_t>(READ_IMM8());
     OpInitString(sql_string, length, data);
     DISPATCH_NEXT();
   }

@@ -1521,7 +1521,7 @@ void BytecodeGenerator::VisitBuiltinTrigCall(ast::CallExpr *call, ast::Builtin b
 
 void BytecodeGenerator::VisitBuiltinNowCall(ast::CallExpr *call, ast::Builtin builtin) {
   LocalVar result = ExecutionResult()->GetOrCreateDestination(call->GetType());
-  LocalVar exec_ctx = VisitExpressionForRValue(call->Arguments()[1]);
+  LocalVar exec_ctx = VisitExpressionForRValue(call->Arguments()[0]);
   Emitter()->Emit(Bytecode::Now, result, exec_ctx);
 }
 

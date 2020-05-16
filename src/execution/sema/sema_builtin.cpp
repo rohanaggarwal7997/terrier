@@ -1351,19 +1351,13 @@ void Sema::CheckMathTrigCall(ast::CallExpr *call, ast::Builtin builtin) {
 
 void Sema::CheckNowCall(ast::CallExpr *call, ast::Builtin builtin) {
   // check to make sure we have the right number of arguments
-  if (!CheckArgCount(call, 2)) {
-    return;
-  }
-
-  auto timestamp_kind = ast::BuiltinType::Timestamp;
-  if (!IsPointerToSpecificBuiltin(call->Arguments()[0]->GetType(), timestamp_kind)) {
-    ReportIncorrectCallArg(call, 0, GetBuiltinType(timestamp_kind)->PointerTo());
+  if (!CheckArgCount(call, 1)) {
     return;
   }
 
   auto exec_ctx_kind = ast::BuiltinType::ExecutionContext;
-  if (!IsPointerToSpecificBuiltin(call->Arguments()[1]->GetType(), exec_ctx_kind)) {
-    ReportIncorrectCallArg(call, 1, GetBuiltinType(exec_ctx_kind)->PointerTo());
+  if (!IsPointerToSpecificBuiltin(call->Arguments()[0]->GetType(), exec_ctx_kind)) {
+    ReportIncorrectCallArg(call, 0, GetBuiltinType(exec_ctx_kind)->PointerTo());
     return;
   }
 
