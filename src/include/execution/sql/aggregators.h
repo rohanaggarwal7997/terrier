@@ -150,7 +150,6 @@ class RealSumAggregate : public SumAggregate<Real> {};
 
 /** FixedDecimal sums. */
 class FixedDecimalSumAggregate {
-
  public:
   /**
    * Constructor.
@@ -290,13 +289,11 @@ class StringMaxAggregate : public MaxAggregate<StringVal> {};
 
 /** FixedDecimal max. */
 class FixedDecimalMaxAggregate {
-
  public:
   /**
    * Constructor.
    */
   FixedDecimalMaxAggregate() : max_(std::numeric_limits<decltype(DecimalVal::val_)>::min()) {
-
     int128_t minval = 1;
     minval = minval << 127;
     max_.val_.SetValue(minval);

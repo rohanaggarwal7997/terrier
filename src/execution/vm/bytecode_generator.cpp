@@ -556,8 +556,8 @@ void BytecodeGenerator::VisitSqlConversionCall(ast::CallExpr *call, ast::Builtin
       auto fixed_decimal_3 = VisitExpressionForRValue(call->Arguments()[2]);
       auto fixed_decimal_4 = VisitExpressionForRValue(call->Arguments()[3]);
       auto precision = VisitExpressionForRValue(call->Arguments()[4]);
-      GetEmitter()->Emit(Bytecode::InitFixedDecimal, dest, fixed_decimal_1,
-                         fixed_decimal_2, fixed_decimal_3, fixed_decimal_4, precision);
+      GetEmitter()->Emit(Bytecode::InitFixedDecimal, dest, fixed_decimal_1, fixed_decimal_2, fixed_decimal_3,
+                         fixed_decimal_4, precision);
       break;
     }
     case ast::Builtin::SetPrecisionFixedDecimal: {
@@ -1236,12 +1236,12 @@ namespace {
     FixedDecimalMaxAggregateFree)                                                                                      \
   /* MIN(FixedDecimal_col) */                                                                                          \
   F(FixedDecimalMinAggregate, FixedDecimalMinAggregateInit, FixedDecimalMinAggregateAdvance,                           \
-    FixedDecimalMinAggregateGetResult, FixedDecimalMinAggregateMerge,                                                  \
-    FixedDecimalMinAggregateReset, FixedDecimalMinAggregateFree)                                                       \
+    FixedDecimalMinAggregateGetResult, FixedDecimalMinAggregateMerge, FixedDecimalMinAggregateReset,                   \
+    FixedDecimalMinAggregateFree)                                                                                      \
   /* SUM(FixedDecimal_col) */                                                                                          \
   F(FixedDecimalSumAggregate, FixedDecimalSumAggregateInit, FixedDecimalSumAggregateAdvance,                           \
-    FixedDecimalSumAggregateGetResult, FixedDecimalSumAggregateMerge,                                                  \
-    FixedDecimalSumAggregateReset, FixedDecimalSumAggregateFree)                                                       \
+    FixedDecimalSumAggregateGetResult, FixedDecimalSumAggregateMerge, FixedDecimalSumAggregateReset,                   \
+    FixedDecimalSumAggregateFree)                                                                                      \
   /* MAX(date_col) */                                                                                                  \
   F(DateMaxAggregate, DateMaxAggregateInit, DateMaxAggregateAdvance, DateMaxAggregateGetResult, DateMaxAggregateMerge, \
     DateMaxAggregateReset, DateMaxAggregateFree)                                                                       \
@@ -2220,7 +2220,8 @@ void BytecodeGenerator::VisitBuiltinPRCall(ast::CallExpr *call, ast::Builtin bui
       break;
     }
     case ast::Builtin::PRGetFixedDecimal: {
-      LocalVar val = GetExecutionResult()->GetOrCreateDestination(ast::BuiltinType::Get(ctx, ast::BuiltinType::FixedDecimal));
+      LocalVar val =
+          GetExecutionResult()->GetOrCreateDestination(ast::BuiltinType::Get(ctx, ast::BuiltinType::FixedDecimal));
       auto col_idx = static_cast<uint16_t>(call->Arguments()[1]->As<ast::LitExpr>()->Int64Val());
       GetEmitter()->EmitPRGet(Bytecode::PRGetFixedDecimalVal, val, pr, col_idx);
       break;
@@ -2293,7 +2294,8 @@ void BytecodeGenerator::VisitBuiltinPRCall(ast::CallExpr *call, ast::Builtin bui
       break;
     }
     case ast::Builtin::PRGetFixedDecimalNull: {
-      LocalVar val = GetExecutionResult()->GetOrCreateDestination(ast::BuiltinType::Get(ctx, ast::BuiltinType::FixedDecimal));
+      LocalVar val =
+          GetExecutionResult()->GetOrCreateDestination(ast::BuiltinType::Get(ctx, ast::BuiltinType::FixedDecimal));
       auto col_idx = static_cast<uint16_t>(call->Arguments()[1]->As<ast::LitExpr>()->Int64Val());
       GetEmitter()->EmitPRGet(Bytecode::PRGetFixedDecimalValNull, val, pr, col_idx);
       break;
@@ -3431,7 +3433,7 @@ void BytecodeGenerator::VisitSqlArithmeticExpr(ast::BinaryOpExpr *node) {
   Bytecode bytecode;
   switch (node->Op()) {
     case parsing::Token::Type::PLUS: {
-      if(is_decimal_math) {
+      if (is_decimal_math) {
         bytecode = Bytecode::AddFixedDecimal;
         break;
       }
@@ -3439,7 +3441,7 @@ void BytecodeGenerator::VisitSqlArithmeticExpr(ast::BinaryOpExpr *node) {
       break;
     }
     case parsing::Token::Type::MINUS: {
-      if(is_decimal_math) {
+      if (is_decimal_math) {
         bytecode = Bytecode::SubFixedDecimal;
         break;
       }
@@ -3447,7 +3449,7 @@ void BytecodeGenerator::VisitSqlArithmeticExpr(ast::BinaryOpExpr *node) {
       break;
     }
     case parsing::Token::Type::STAR: {
-      if(is_decimal_math) {
+      if (is_decimal_math) {
         bytecode = Bytecode::MulFixedDecimal;
         break;
       }
@@ -3455,7 +3457,7 @@ void BytecodeGenerator::VisitSqlArithmeticExpr(ast::BinaryOpExpr *node) {
       break;
     }
     case parsing::Token::Type::SLASH: {
-      if(is_decimal_math) {
+      if (is_decimal_math) {
         bytecode = Bytecode::DivFixedDecimal;
         break;
       }

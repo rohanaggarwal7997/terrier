@@ -1509,7 +1509,7 @@ PostgresParser::ColumnDefTransResult PostgresParser::ColumnDefTransform(ParseRes
         auto node_type = reinterpret_cast<A_Const *>(node)->val_.type_;
         switch (node_type) {
           case T_Integer: {
-            if(datatype == ColumnDefinition::DataType::FIXEDDECIMAL) {
+            if (datatype == ColumnDefinition::DataType::FIXEDDECIMAL) {
               auto node2 = reinterpret_cast<Node *>(type_name->typmods_->tail->data.ptr_value);
               varlen = static_cast<size_t>(reinterpret_cast<A_Const *>(node2)->val_.val_.ival_);
               break;

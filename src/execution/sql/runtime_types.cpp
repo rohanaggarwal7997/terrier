@@ -3,8 +3,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "common/error/exception.h"
 #include "common/error/error_code.h"
+#include "common/error/exception.h"
 #include "execution/sql/decimal_magic_numbers.h"
 #include "spdlog/fmt/fmt.h"
 
@@ -836,9 +836,7 @@ int nlz128(uint128_t x) {
 uint128_t CalculateUnsignedLongDivision128(uint128_t u1, uint128_t u0, uint128_t v) {
   if (u1 >= v) {
     // Result will overflow from 128 bits
-    throw EXECUTION_EXCEPTION(
-        fmt::format("Decimal Overflow from 128 bits"),
-        common::ErrorCode::ERRCODE_DATA_EXCEPTION);
+    throw EXECUTION_EXCEPTION(fmt::format("Decimal Overflow from 128 bits"), common::ErrorCode::ERRCODE_DATA_EXCEPTION);
   }
 
   // Base 2^64
@@ -1333,13 +1331,13 @@ int Decimal<T>::SetMaxmPrecision(std::string input) {
 
   while (pos < input.size() && input[pos] != '.') {
     this->value_ += input[pos] - '0';
-    if(pos < input.size() - 1) {
+    if (pos < input.size() - 1) {
       this->value_ *= 10;
     }
     pos++;
   }
 
-  if(pos == input.size()) {
+  if (pos == input.size()) {
     if (is_negative) {
       this->value_ = -this->value_;
     }
@@ -1348,7 +1346,7 @@ int Decimal<T>::SetMaxmPrecision(std::string input) {
     pos++;
   }
 
-  if(pos == input.size()) {
+  if (pos == input.size()) {
     this->value_ /= 10;
     if (is_negative) {
       this->value_ = -this->value_;
@@ -1357,9 +1355,9 @@ int Decimal<T>::SetMaxmPrecision(std::string input) {
   }
 
   int precision = 0;
-  while(pos < input.size()) {
+  while (pos < input.size()) {
     this->value_ += input[pos] - '0';
-    if(pos < input.size() - 1) {
+    if (pos < input.size() - 1) {
       this->value_ *= 10;
     }
     pos++;

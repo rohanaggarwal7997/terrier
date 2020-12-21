@@ -54,8 +54,7 @@ void Sema::CheckSqlConversionCall(ast::CallExpr *call, ast::Builtin builtin) {
     return;
   }
 
-  if (builtin == ast::Builtin::SetPrecisionFixedDecimal ||
-      builtin == ast::Builtin::UpgradePrecisionFixedDecimal) {
+  if (builtin == ast::Builtin::SetPrecisionFixedDecimal || builtin == ast::Builtin::UpgradePrecisionFixedDecimal) {
     if (!CheckArgCount(call, 2)) {
       return;
     }

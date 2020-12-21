@@ -53,7 +53,6 @@ class Schema {
           nullable_(nullable),
           oid_(INVALID_COLUMN_OID),
           default_value_(default_value.Copy()) {
-
       NOISEPAGE_ASSERT(attr_size_ == 1 || attr_size_ == 2 || attr_size_ == 4 || attr_size_ == 8 || attr_size_ == 16,
                        "This constructor is meant for non-VARLEN columns.");
       NOISEPAGE_ASSERT(type_ != type::TypeId::INVALID, "Attribute type cannot be INVALID.");
@@ -127,9 +126,7 @@ class Schema {
     /**
      * @return The maximum length of this column (only valid if it's VARLEN)
      */
-    uint16_t MaxVarlenSize() const {
-      return max_varlen_size_;
-    }
+    uint16_t MaxVarlenSize() const { return max_varlen_size_; }
 
     /**
      * @return SQL type for this column

@@ -562,8 +562,9 @@ bool DatabaseCatalog::CreateColumn(const common::ManagedPointer<transaction::Tra
   *type_entry = static_cast<uint32_t>(col.Type());
   // TODO(Amadou): Figure out what really goes here for varlen. Unclear if it's attribute size (16) or varlen length
   *len_entry = (col.Type() == type::TypeId::VARCHAR || col.Type() == type::TypeId::VARBINARY ||
-                col.Type() == type::TypeId::FIXEDDECIMAL) ? col.MaxVarlenSize()
-                                                                                              : col.AttrSize();
+                col.Type() == type::TypeId::FIXEDDECIMAL)
+                   ? col.MaxVarlenSize()
+                   : col.AttrSize();
   *notnull_entry = !col.Nullable();
   storage::VarlenEntry dsrc_varlen = storage::StorageUtil::CreateVarlen(col.StoredExpression()->ToJson().dump());
   *dsrc_entry = dsrc_varlen;
@@ -1769,9 +1770,8 @@ void DatabaseCatalog::BootstrapTypes(const common::ManagedPointer<transaction::T
   InsertType(txn, postgres::VAR_ARRAY_OID, "var_array", postgres::NAMESPACE_CATALOG_NAMESPACE_OID, -1, false,
              postgres::Type::COMPOSITE);
 
-  InsertType(txn, type::TypeId::FIXEDDECIMAL, "fixeddecimal", postgres::NAMESPACE_CATALOG_NAMESPACE_OID, sizeof(int128_t), true,
-             postgres::Type::BASE);
-
+  InsertType(txn, type::TypeId::FIXEDDECIMAL, "fixeddecimal", postgres::NAMESPACE_CATALOG_NAMESPACE_OID,
+             sizeof(int128_t), true, postgres::Type::BASE);
 }
 
 void DatabaseCatalog::BootstrapLanguages(const common::ManagedPointer<transaction::TransactionContext> txn) {
@@ -2483,7 +2483,7 @@ Column DatabaseCatalog::MakeColumn(storage::ProjectedRow *const pr, const storag
 
   std::string name(reinterpret_cast<const char *>(col_name->Content()), col_name->Size());
   Column col = (col_type == type::TypeId::VARCHAR || col_type == type::TypeId::VARBINARY ||
-                  col_type == type::TypeId::FIXEDDECIMAL)
+                col_type == type::TypeId::FIXEDDECIMAL)
                    ? Column(name, col_type, col_len, col_null, *expr)
                    : Column(name, col_type, col_null, *expr);
 

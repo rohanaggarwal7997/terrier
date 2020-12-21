@@ -185,7 +185,8 @@ uint128_t PowerOfTen[39][2] = {{0, 0},
 
 /* Magic map for 128 bit division with constants*/
 std::map<uint128_t, struct Magic_Number_128> MagicMap128BitConstantDivision = {
-    {5, {0xcccccccccccccccc, 0xcccccccccccccccd, 130, 0}}, {7, {0x2492492492492492, 0x4924924924924925, 131, 1}}};
+    {5, {0xcccccccccccccccc, 0xcccccccccccccccd, 130, 0}},
+    {7, {0x2492492492492492, 0x4924924924924925, 131, 1}}};
 
 /* Magic map for 256 bit division with constants*/
 std::map<uint128_t, struct Magic_Number_256> MagicMap256BitConstantDivision = {
@@ -264,4 +265,4 @@ std::map<uint128_t, unsigned> PowerTwo = {
     {0x8000000000000000, 63},
 };
 
-}  // namespace terrier::execution::sql
+}  // namespace noisepage::execution::sql

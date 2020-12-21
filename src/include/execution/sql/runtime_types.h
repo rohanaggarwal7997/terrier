@@ -450,9 +450,9 @@ class EXPORT Decimal {
     uint128_t x = value_;
     const uint64_t kMul = 0x9ddfea08eb382d69ULL;
     uint128_t low_mask = 0xFFFFFFFFFFFFFFFF;
-    uint64_t a = ((x&low_mask) ^ (x>>64)) * kMul;
+    uint64_t a = ((x & low_mask) ^ (x >> 64)) * kMul;
     a ^= (a >> 47);
-    uint64_t b = ((x>>64) ^ a) * kMul;
+    uint64_t b = ((x >> 64) ^ a) * kMul;
     b ^= (b >> 47);
     b *= kMul;
     return b;
